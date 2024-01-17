@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dha628u58fcds"]
+
+[ext_resource type="PackedScene" uid="uid://bvnejsof4vxaf" path="res://Assets/Nodes/CharacterTemplate.tscn" id="1_mbo4r"]
+[ext_resource type="Script" path="res://Assets/Scripts/Strategies/CharacterStrategy/TailsCharacterStrategy.cs" id="2_jdtqd"]
+
+[node name="PlayerController" type="Node2D"]
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_mbo4r")]
+Speed = 200.0
+CharacterStrategyPath = NodePath("TailsStrategy")
+
+[node name="TailsStrategy" type="Node" parent="CharacterBody2D"]
+script = ExtResource("2_jdtqd")
+CoyoteTime = 0.2
+TailsMaxFlyTime = 3.0
+MaxJumpNumber = 1
+jumptimeLimit = 0.35

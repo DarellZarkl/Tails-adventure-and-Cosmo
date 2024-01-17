@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwyo60apmnq31"]
+
+[ext_resource type="Texture2D" uid="uid://df1db6frfqcjo" path="res://Ressources/Sprites/SpriteSheets/Characters/TailsSpriteSheet.png" id="1_mqavi"]
+
+[node name="CharacterSprite" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-26, -26)
+texture = ExtResource("1_mqavi")
+hframes = 20
+vframes = 20
+frame = 7
+region_rect = Rect2(24, 184, 400, 40)
