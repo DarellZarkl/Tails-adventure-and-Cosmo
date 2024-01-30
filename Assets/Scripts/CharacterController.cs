@@ -5,12 +5,7 @@ using System.Linq;
 
 public partial class CharacterController : CharacterBody2D
 {
-	[Export]
-	public float Speed = 300.0f;
-	[Export]
-	public float JumpVelocity = -400.0f;	
-	[Export]
-	public float FlyVelocity = -75.0f;
+
 
 	[Export]
 	public NodePath CharacterStateMachinePath;
@@ -55,10 +50,5 @@ public interface ICharacterStrategy{
 	void HandleFallingState(CharacterController characterController, CharacterState state);
 	double Delta{get;set;}
 	void InitializeStates(CharacterController characterController);
-	void Jump(CharacterController currentController);
-	void Grab();
-	void Fly(CharacterController currentController);
-	void Moving(CharacterController currentController);
-	void Falling(CharacterController currentController);
 	void HandleAnimationDirection(Sprite2D sprite);
 }
