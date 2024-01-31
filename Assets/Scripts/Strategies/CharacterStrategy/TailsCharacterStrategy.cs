@@ -87,7 +87,7 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
     }
     public void Jump(CharacterController currentController ){
             CheckAxisFlip();
-            if(Input.IsActionJustPressed("ui_accept")){
+            if(InputFrameData.JustPressedJump){
                 if(!currentController.IsOnFloor() && currentCoyoteTimer<CoyoteTime && CurrentJumpNumber<1){
                     CurrentJumpNumber+=1;
                     currentjumpTime+=Delta;
@@ -102,18 +102,21 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
                         currentController.characterStateMachine.UpdateState(JumpingState);
                 }
             }
-            else if(!Input.IsActionJustPressed("ui_accept") && Input.IsActionPressed("ui_accept")&& !currentController.IsOnFloor() && jumptimeLimit>=currentjumpTime){
+            else if(!InputFrameData.JustPressedJump
+            && InputFrameData.PressingJump
+            && !currentController.IsOnFloor() 
+            && jumptimeLimit>=currentjumpTime){
                 currentjumpTime+=Delta;
                 currentController.UpdateVelocity.Y = -JumpVelocity;
                 if(currentController.characterStateMachine.CurrentState!=JumpingState)
                         currentController.characterStateMachine.UpdateState(JumpingState);
             }
-            if((Input.IsActionJustReleased("ui_accept") || currentjumpTime>=jumptimeLimit) && !currentController.IsOnFloor()){
+            if((InputFrameData.ReleaseJump || currentjumpTime>=jumptimeLimit) && !currentController.IsOnFloor()){
                 currentController.characterStateMachine.UpdateState(FallingState);
             }
 	}
     public void Fly(CharacterController currentController){
-        if(Input.IsActionJustPressed("ui_accept") 
+        if(InputFrameData.JustPressedJump
         && !currentController.IsOnFloor() 
         && CurrentJumpNumber>=1 
         && TailsCurrentFly<=TailsMaxFlyTime 
@@ -126,8 +129,8 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
             || currentController.characterStateMachine.CurrentState == MovingState)
                 currentController.characterStateMachine.UpdateState(FlyingState);
         }
-        else if(!Input.IsActionJustPressed("ui_accept") 
-        && Input.IsActionPressed("ui_accept") 
+        else if(!InputFrameData.JustPressedJump
+        && InputFrameData.PressingJump 
         && !currentController.IsOnFloor() 
         && CurrentJumpNumber>=1  
         && TailsCurrentFly<=TailsMaxFlyTime  
@@ -140,14 +143,14 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
             || currentController.characterStateMachine.CurrentState == MovingState)
                 currentController.characterStateMachine.UpdateState(FlyingState);
         }
-        else if(Input.IsActionJustReleased("ui_accept") || TailsCurrentFly>TailsMaxFlyTime){
+        else if(InputFrameData.ReleaseJump || TailsCurrentFly>TailsMaxFlyTime){
             if(currentController.characterStateMachine.CurrentState==FlyingState)
                 currentController.characterStateMachine.UpdateState(FallingState);
         }
     }
 	public void Grab(){}
     public void CheckAxisFlip(){
-        var axisval = Input.GetAxis("ui_left", "ui_right");
+        var axisval = InputFrameData.AxisX; 
         if(axisval==-1){
             FlipH = true;
         }
@@ -157,7 +160,7 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
     }
     public void Moving(CharacterController currentController){
         CheckAxisFlip();
-         Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+         Vector2 direction = InputFrameData.Direction;
 		    if (direction.X != 0)
 		    {
                 float factor = currentController.characterStateMachine.CurrentState==this.FlyingState?FlyingSpeedFactor:1f;
@@ -252,4 +255,28 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
         this.Fly(characterController);
         this.HandleAnimationDirection(state.CharacterSprite);
     }
+
+    public void HandleIdleStateTransistions(CharacterController currentController, CharacterState state){
+        Vector2 direction = InputFrameData.Direction;
+		    if (direction.X != 0)
+		    {
+                if(state!=MovingState 
+                && state!=JumpingState 
+                && state!=FallingState
+                && state!=FlyingState
+                && (currentController.IsOnFloor() || currentCoyoteTimer>CoyoteTime)){
+                    currentController.characterStateMachine.UpdateState(MovingState);
+                }
+                if(currentCoyoteTimer>CoyoteTime 
+                && !currentController.IsOnFloor() 
+                && currentController.characterStateMachine.CurrentState==MovingState){
+                    currentController.characterStateMachine.UpdateState(FallingState);
+                }
+		    }
+            
+    }
+    public void HandleMovingStateTransition(CharacterController currentController, CharacterState state){
+
+    }
+
 }
