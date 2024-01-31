@@ -12,5 +12,5 @@ CharacterStrategyPath = NodePath("TailsStrategy")
 script = ExtResource("2_jdtqd")
 CoyoteTime = 0.2
 TailsMaxFlyTime = 3.0
-MaxJumpNumber = 3
 jumptimeLimit = 0.35
+JumpVelocity = 300.0
