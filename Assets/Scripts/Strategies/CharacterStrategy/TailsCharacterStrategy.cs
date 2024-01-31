@@ -22,15 +22,17 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
 	[Export(PropertyHint.None,"Max flying time")]
 	public double TailsMaxFlyTime{get;set;}
     [Export(PropertyHint.None,"Number of jump")]
-	public int MaxJumpNumber{get;set;}
+	public int MaxJumpNumber{get;set;} = 5;
     [Export(PropertyHint.None,"Jump time limit")]
 	public double jumptimeLimit{get;set;}
     [Export]
 	public float Speed = 300.0f;
 	[Export]
-	public float JumpVelocity = -400.0f;	
+	public float JumpVelocity = 400.0f;	
 	[Export]
-	public float FlyVelocity = -75.0f;
+	public float FlyVelocity = 75.0f;
+    [Export(PropertyHint.Range,"0,1")]
+	public float FlyingSpeedFactor = 0.35f;
 
     //private
     double currentCoyoteTimer;
@@ -89,20 +91,20 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
                 if(!currentController.IsOnFloor() && currentCoyoteTimer<CoyoteTime && CurrentJumpNumber<1){
                     CurrentJumpNumber+=1;
                     currentjumpTime+=Delta;
-                    currentController.UpdateVelocity.Y = JumpVelocity;
+                    currentController.UpdateVelocity.Y = -JumpVelocity;
                     currentController.characterStateMachine.UpdateState(JumpingState);
                 }
                 else if(currentController.IsOnFloor()){
                     CurrentJumpNumber+=1;
                     currentjumpTime+=Delta;
-                    currentController.UpdateVelocity.Y = JumpVelocity;
+                    currentController.UpdateVelocity.Y = -JumpVelocity;
                     if(currentController.characterStateMachine.CurrentState!=JumpingState)
                         currentController.characterStateMachine.UpdateState(JumpingState);
                 }
             }
             else if(!Input.IsActionJustPressed("ui_accept") && Input.IsActionPressed("ui_accept")&& !currentController.IsOnFloor() && jumptimeLimit>=currentjumpTime){
                 currentjumpTime+=Delta;
-                currentController.UpdateVelocity.Y = JumpVelocity;
+                currentController.UpdateVelocity.Y = -JumpVelocity;
                 if(currentController.characterStateMachine.CurrentState!=JumpingState)
                         currentController.characterStateMachine.UpdateState(JumpingState);
             }
@@ -111,17 +113,28 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
             }
 	}
     public void Fly(CharacterController currentController){
-        if(Input.IsActionJustPressed("ui_accept") && !currentController.IsOnFloor() && CurrentJumpNumber>=1 && TailsCurrentFly<=TailsMaxFlyTime){
+        if(Input.IsActionJustPressed("ui_accept") 
+        && !currentController.IsOnFloor() 
+        && CurrentJumpNumber>=1 
+        && TailsCurrentFly<=TailsMaxFlyTime 
+        && CurrentJumpNumber<=MaxJumpNumber){
             TailsCurrentFly+= Delta;
-            currentController.UpdateVelocity.Y = JumpVelocity;
+            CurrentJumpNumber+=1;
+            currentController.UpdateVelocity.Y = -FlyVelocity;
             if(currentController.characterStateMachine.CurrentState==JumpingState 
             || currentController.characterStateMachine.CurrentState==FallingState
             || currentController.characterStateMachine.CurrentState == MovingState)
                 currentController.characterStateMachine.UpdateState(FlyingState);
         }
-        else if(!Input.IsActionJustPressed("ui_accept") && Input.IsActionPressed("ui_accept") && !currentController.IsOnFloor() && CurrentJumpNumber>=1  && TailsCurrentFly<=TailsMaxFlyTime){
+        else if(!Input.IsActionJustPressed("ui_accept") 
+        && Input.IsActionPressed("ui_accept") 
+        && !currentController.IsOnFloor() 
+        && CurrentJumpNumber>=1  
+        && TailsCurrentFly<=TailsMaxFlyTime  
+        && CurrentJumpNumber<=MaxJumpNumber){
             TailsCurrentFly+= Delta;
-            currentController.UpdateVelocity.Y = JumpVelocity;
+            currentController.UpdateVelocity.Y = -FlyVelocity;
+            GD.Print($"jump number(fly) :{jumpnumber}");
             if(currentController.characterStateMachine.CurrentState==JumpingState 
             || currentController.characterStateMachine.CurrentState==FallingState
             || currentController.characterStateMachine.CurrentState == MovingState)
@@ -147,7 +160,8 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
          Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 		    if (direction.X != 0)
 		    {
-		    	currentController.UpdateVelocity.X = direction.X * Speed;
+                float factor = currentController.characterStateMachine.CurrentState==this.FlyingState?FlyingSpeedFactor:1f;
+		    	currentController.UpdateVelocity.X = direction.X * Speed * factor;
                  if(currentController.characterStateMachine.CurrentState!=MovingState 
                  && currentController.characterStateMachine.CurrentState!=JumpingState 
                  && currentController.characterStateMachine.CurrentState!=FallingState
@@ -161,6 +175,14 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
                 if(currentController.characterStateMachine.CurrentState==MovingState)
                     currentController.characterStateMachine.UpdateState(IdleState);
 		    }
+            if(currentCoyoteTimer>CoyoteTime 
+            && !currentController.IsOnFloor() 
+            && currentController.characterStateMachine.CurrentState==MovingState){
+                currentController.characterStateMachine.UpdateState(FallingState);
+            }
+            if(!currentController.IsOnFloor()){
+                currentCoyoteTimer+=Delta;
+            }
     }
 
     public void Falling(CharacterController currentController)
@@ -179,6 +201,8 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
             currentjumpTime =0;
             currentCoyoteTimer=0;
             TailsCurrentFly=0;
+            CurrentJumpNumber=0;
+            GD.Print("reset!");
             if(currentController.characterStateMachine.CurrentState!=IdleState 
             && currentController.characterStateMachine.CurrentState!=MovingState
             && currentController.characterStateMachine.CurrentState!=JumpingState)
