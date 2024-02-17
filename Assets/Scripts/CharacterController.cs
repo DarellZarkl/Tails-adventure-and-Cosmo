@@ -1,9 +1,10 @@
+using CollisionsManagement;
 using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class CharacterController : CharacterBody2D
+public partial class CharacterController : CharacterBody2D, IOnCollisionEnter
 {
 
 
@@ -17,9 +18,22 @@ public partial class CharacterController : CharacterBody2D
 	
 	public Vector2 UpdateVelocity;
 
+	public Vector2 SavedPosition{get;set;}
+
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+		Collisionhandler.Instance.AddCollisionBody(this,CollisionGroups.DeadZone);
+		GD.Print("registered in handler");
+    }
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+		Collisionhandler.Instance.RemoveCollisionBody(this,CollisionGroups.DeadZone);
+    }
     public override void _Ready()
     {
         base._Ready();
@@ -28,7 +42,14 @@ public partial class CharacterController : CharacterBody2D
 		CharacterStrategy.InitializeStates(this);
 		GD.Print("strategy : "+this.CharacterStrategy.ToString());
 		GD.Print(characterStateMachine.GetType().Name);
+		this.SavePosition();
     }
+	public void SavePosition(){
+		this.SavedPosition = this.GlobalPosition;
+	}
+	public void Reset(){
+this.GlobalPosition = SavedPosition;
+	}
 	public List<Node> GetChildStates(){
 		return this.characterStateMachine.GetChildren().ToList();
 	} 
@@ -39,6 +60,18 @@ public partial class CharacterController : CharacterBody2D
 		Velocity = UpdateVelocity;
 		MoveAndSlide();
 	}
+
+    public void OnEnterArea(Node2D area)
+    {
+		if(area==this){
+       GD.Print($"DEADZONE ENTERED : ",area.Name);
+	   this.Reset();
+		}
+		else{
+			GD.Print("wut?");
+		}
+    }
+
 }
 
 
