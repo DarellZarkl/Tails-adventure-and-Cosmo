@@ -13,7 +13,9 @@ public class Collisionhandler {
             return _instance;
         }
     }
-    private Collisionhandler(){}
+    private Collisionhandler(){
+        
+    }
     Dictionary<string,CollisionHandlingItem> handlers = new Dictionary<string,CollisionHandlingItem>(); 
 
     public CollisionHandlingItem GetHandlerFromName(string name){

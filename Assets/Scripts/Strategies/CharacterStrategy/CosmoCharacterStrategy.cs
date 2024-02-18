@@ -25,4 +25,8 @@ public partial class CosmoCharacterStrategy : Node, ICharacterStrategy{
 	public void HandleAnimationDirection(Sprite2D sprite){
 
     }
+    public void Die(CharacterController characterController,Vector2 SavedPosition){
+		characterController.GlobalPosition = SavedPosition;
+		//this.ResetOnGroundtouch();
+	}
 }
