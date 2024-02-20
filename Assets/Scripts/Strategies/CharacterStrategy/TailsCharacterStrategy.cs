@@ -182,8 +182,15 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
 		}
 	}
 
-	public void HandleAnimationDirection(Sprite2D sprite){
-		sprite.FlipH = FlipH;
+	public void HandleAnimationDirection(Node2D sprite){
+		if(this.FlipH==true && sprite.Scale.X>0){
+			GD.Print("Flip true");
+			sprite.Scale = new Vector2(-1,sprite.Scale.Y);
+		}
+		else if(this.FlipH==false && sprite.Scale.X<0){
+			GD.Print("Flip false");
+			sprite.Scale = new Vector2(1,sprite.Scale.Y);
+		}
 	}
 
 	public void HandleIdleState(CharacterController characterController, CharacterState state)
@@ -191,7 +198,7 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
 		this.Moving(characterController);
 		this.Falling(characterController);
 		this.Jump(characterController);
-		this.HandleAnimationDirection(state.CharacterSprite);
+		this.HandleAnimationDirection(characterController.AnimationRoot);
 		this.HandleIdleStateTransistions(characterController,state);
 	}
 
@@ -200,7 +207,7 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
 		this.Moving(characterController);
 		this.Jump(characterController);
 		this.Falling(characterController);
-		this.HandleAnimationDirection(state.CharacterSprite);
+		this.HandleAnimationDirection(characterController.AnimationRoot);
 		this.HandleMovingStateTransitions(characterController,state);
 	}
 
@@ -208,7 +215,7 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
 	{
 		this.Fly(characterController);
 		this.Moving(characterController);
-		this.HandleAnimationDirection(state.CharacterSprite);
+		this.HandleAnimationDirection(characterController.AnimationRoot);
 		this.HandleFlyingStateTransitions(characterController,state);
 	}
 
@@ -217,7 +224,7 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
 		this.Jump(characterController);
 		this.Moving(characterController);
 		this.Falling(characterController);
-		this.HandleAnimationDirection(state.CharacterSprite);
+		this.HandleAnimationDirection(characterController.AnimationRoot);
 		this.HandleJumpingStateTransitions(characterController,state);
 	}
 
@@ -226,7 +233,7 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
 		this.Falling(characterController);
 		this.Moving(characterController);
 		this.Fly(characterController);
-		this.HandleAnimationDirection(state.CharacterSprite);
+		this.HandleAnimationDirection(characterController.AnimationRoot);
 		this.HandleFallingStateTransitions(characterController,state);
 	}
 

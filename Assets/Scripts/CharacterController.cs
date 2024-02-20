@@ -12,9 +12,12 @@ public partial class CharacterController : CharacterBody2D, IOnCollisionEnter
 	public NodePath CharacterStateMachinePath;
 	[Export]
 	public NodePath CharacterStrategyPath;
+	[Export]
+	public NodePath AnimationRootNodePath;
 
 	public CharacterStateMachine characterStateMachine{get;set;}
 	public ICharacterStrategy CharacterStrategy{get;set;}
+	public Node2D AnimationRoot{get;set;}
 	
 	public Vector2 UpdateVelocity;
 
@@ -39,6 +42,7 @@ public partial class CharacterController : CharacterBody2D, IOnCollisionEnter
 		base._Ready();
 		this.characterStateMachine = GetNode<CharacterStateMachine>(CharacterStateMachinePath);
 		this.CharacterStrategy = GetNode<ICharacterStrategy>(CharacterStrategyPath);
+		this.AnimationRoot = GetNode<Node2D>(AnimationRootNodePath);
 		CharacterStrategy.InitializeStates(this);
 		GD.Print("strategy : "+this.CharacterStrategy.ToString());
 		GD.Print(characterStateMachine.GetType().Name);
@@ -71,7 +75,6 @@ public partial class CharacterController : CharacterBody2D, IOnCollisionEnter
 			GD.Print("wut?");
 		}
 	}
-
 }
 
 
@@ -83,6 +86,6 @@ public interface ICharacterStrategy{
 	void HandleFallingState(CharacterController characterController, CharacterState state);
 	double Delta{get;set;}
 	void InitializeStates(CharacterController characterController);
-	void HandleAnimationDirection(Sprite2D sprite);
+	void HandleAnimationDirection(Node2D sprite);
 	void Die(CharacterController characterController,Vector2 SavedPosition);
 }

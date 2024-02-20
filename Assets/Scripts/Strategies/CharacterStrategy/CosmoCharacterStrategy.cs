@@ -22,7 +22,7 @@ public partial class CosmoCharacterStrategy : Node, ICharacterStrategy{
 	public void InitializeStates(CharacterController characterController){
 
     }
-	public void HandleAnimationDirection(Sprite2D sprite){
+	public void HandleAnimationDirection(Node2D sprite){
 
     }
     public void Die(CharacterController characterController,Vector2 SavedPosition){

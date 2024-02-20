@@ -8,10 +8,10 @@ public partial class CharacterState : State{
     [Export]
     public NodePath CharacterSpritePath{get;set;}
 
-    public Sprite2D CharacterSprite{get;set;}
     public AnimationPlayer AnimationPlayer{get;set;}
 
     public CharacterController CharacterBody{get;set;}
+
     public StateMachine StateMachine{
         get{
             return CharacterBody.characterStateMachine;
@@ -26,7 +26,6 @@ public partial class CharacterState : State{
     {
         base._Ready();
         CharacterBody = GetNode<CharacterController>(CharacterBodyPath);
-        CharacterSprite = GetNode<Sprite2D>(CharacterSpritePath);
         AnimationPlayer = GetNode<AnimationPlayer>(animationPlayerPath);
     }
 
