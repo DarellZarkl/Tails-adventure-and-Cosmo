@@ -129,7 +129,7 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
 		&& CurrentFlyNumber<MaxFlyNumber){
 			TailsCurrentFly+= Delta;
 			currentController.UpdateVelocity.Y = -FlyVelocity;
-			GD.Print($"jump number(fly) :{jumpnumber}");
+			GD.Print($"jump number(fly) :{this.jumpnumber+this.CurrentFlyNumber}");
 		}
 	}
 	public void Grab(){}
@@ -184,11 +184,9 @@ public partial class TailsCharacterStrategy : Node, ICharacterStrategy{
 
 	public void HandleAnimationDirection(Node2D sprite){
 		if(this.FlipH==true && sprite.Scale.X>0){
-			GD.Print("Flip true");
 			sprite.Scale = new Vector2(-1,sprite.Scale.Y);
 		}
 		else if(this.FlipH==false && sprite.Scale.X<0){
-			GD.Print("Flip false");
 			sprite.Scale = new Vector2(1,sprite.Scale.Y);
 		}
 	}

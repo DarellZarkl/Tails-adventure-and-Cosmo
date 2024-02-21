@@ -1,4 +1,4 @@
-[gd_scene load_steps=320 format=3 uid="uid://bkidgycm1jdpu"]
+[gd_scene load_steps=323 format=3 uid="uid://bkidgycm1jdpu"]
 
 [ext_resource type="Texture2D" uid="uid://o6q3705aa31j" path="res://Ressources/Sprites/kenney_pixel-platformer/Tiles/tile_0000.png" id="1_64egq"]
 [ext_resource type="Texture2D" uid="uid://d3labrl87n5oh" path="res://Ressources/Sprites/kenney_pixel-platformer/Tiles/tile_0001.png" id="2_0rxsh"]
@@ -159,6 +159,7 @@
 [ext_resource type="Texture2D" uid="uid://dtxyypd6qu2kv" path="res://Ressources/Sprites/kenney_pixel-platformer/Tiles/tile_0099.png" id="157_l12mr"]
 [ext_resource type="PackedScene" uid="uid://dha628u58fcds" path="res://Assets/Nodes/PlayerController.tscn" id="158_f8kp1"]
 [ext_resource type="Script" path="res://Assets/Scripts/DeadZone.cs" id="159_kcdgu"]
+[ext_resource type="PackedScene" uid="uid://bdd31jgisc8k5" path="res://Assets/Nodes/GameElements/MovingPlateformBase.tscn" id="160_8cfgn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l2m4r"]
 texture = ExtResource("1_64egq")
@@ -823,6 +824,18 @@ size = Vector2(3576, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_40rn7"]
 size = Vector2(20, 46)
 
+[sub_resource type="Curve2D" id="Curve2D_4oecr"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 346, -3, 0, 0, 0, 0, 346, -3)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_auxcj"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -408)
+}
+point_count = 2
+
 [node name="TestScene" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -846,3 +859,12 @@ script = ExtResource("159_kcdgu")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(195, -65)
 shape = SubResource("RectangleShape2D_40rn7")
+
+[node name="MovingPlateformBase" parent="." instance=ExtResource("160_8cfgn")]
+position = Vector2(678, -37)
+curve = SubResource("Curve2D_4oecr")
+
+[node name="MovingPlateformBase2" parent="." instance=ExtResource("160_8cfgn")]
+position = Vector2(1088, -40)
+curve = SubResource("Curve2D_auxcj")
+speed = 1.0
