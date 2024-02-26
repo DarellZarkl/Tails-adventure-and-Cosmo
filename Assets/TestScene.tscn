@@ -865,14 +865,17 @@ SpeedScale = 0.5
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 layer = -3
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground"]
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 texture_filter = 1
 position = Vector2(1, -1)
 scale = Vector2(1.25, 1.25)
 texture = ExtResource("163_gvh2k")
 centered = false
 
-[node name="CanvasModulate" type="CanvasModulate" parent="ParallaxBackground/Sprite2D"]
+[node name="CanvasModulate" type="CanvasModulate" parent="ParallaxBackground/ParallaxLayer/Sprite2D"]
 script = ExtResource("161_5of03")
 DayDuration = 12.0
 Gradient = ExtResource("162_i8sx2")
