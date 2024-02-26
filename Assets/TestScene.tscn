@@ -1,4 +1,4 @@
-[gd_scene load_steps=325 format=3 uid="uid://bkidgycm1jdpu"]
+[gd_scene load_steps=324 format=3 uid="uid://bkidgycm1jdpu"]
 
 [ext_resource type="Texture2D" uid="uid://o6q3705aa31j" path="res://Ressources/Sprites/kenney_pixel-platformer/Tiles/tile_0000.png" id="1_64egq"]
 [ext_resource type="Texture2D" uid="uid://d3labrl87n5oh" path="res://Ressources/Sprites/kenney_pixel-platformer/Tiles/tile_0001.png" id="2_0rxsh"]
@@ -162,6 +162,7 @@
 [ext_resource type="PackedScene" uid="uid://bdd31jgisc8k5" path="res://Assets/Nodes/GameElements/MovingPlateformBase.tscn" id="160_8cfgn"]
 [ext_resource type="Script" path="res://Assets/Scripts/Mechanic/DayNightCycle.cs" id="161_5of03"]
 [ext_resource type="Texture2D" uid="uid://bkpc1kjm4t2xn" path="res://Ressources/Nodes/daynightcycle-gradient-texture.tres" id="162_i8sx2"]
+[ext_resource type="Texture2D" uid="uid://cq7kfxc82p7kf" path="res://Ressources/Backgrounds/TailsAdventureAndCosmoBackground.png" id="163_gvh2k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l2m4r"]
 texture = ExtResource("1_64egq")
@@ -821,10 +822,7 @@ sources/155 = SubResource("TileSetAtlasSource_guq4d")
 sources/156 = SubResource("TileSetAtlasSource_a300b")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_alg0n"]
-size = Vector2(3576, 48)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_40rn7"]
-size = Vector2(20, 46)
+size = Vector2(7202, 81)
 
 [sub_resource type="Curve2D" id="Curve2D_4oecr"]
 _data = {
@@ -832,13 +830,12 @@ _data = {
 }
 point_count = 3
 
-[sub_resource type="Curve2D" id="Curve2D_auxcj"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -408)
-}
-point_count = 2
-
 [node name="TestScene" type="Node2D"]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+script = ExtResource("161_5of03")
+DayDuration = 12.0
+Gradient = ExtResource("162_i8sx2")
 
 [node name="PlayerController" parent="." instance=ExtResource("158_f8kp1")]
 position = Vector2(0, -12)
@@ -852,28 +849,30 @@ layer_0/tile_data = PackedInt32Array(65534, 0, 0, 65535, 0, 0, 0, 0, 0, 1, 0, 0,
 script = ExtResource("159_kcdgu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeadZone"]
-position = Vector2(498, 407)
+position = Vector2(1090, 423.5)
 shape = SubResource("RectangleShape2D_alg0n")
-
-[node name="Area2D" type="Area2D" parent="."]
-script = ExtResource("159_kcdgu")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(195, -65)
-shape = SubResource("RectangleShape2D_40rn7")
 
 [node name="MovingPlateformBase" parent="." instance=ExtResource("160_8cfgn")]
 position = Vector2(678, -37)
 curve = SubResource("Curve2D_4oecr")
 SpeedScale = 0.5
-Freeze = null
 
 [node name="MovingPlateformBase2" parent="." instance=ExtResource("160_8cfgn")]
 position = Vector2(1088, -40)
-curve = SubResource("Curve2D_auxcj")
+speed = 3.0
 SpeedScale = 0.5
-Freeze = null
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+layer = -3
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground"]
+texture_filter = 1
+position = Vector2(1, -1)
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("163_gvh2k")
+centered = false
+
+[node name="CanvasModulate" type="CanvasModulate" parent="ParallaxBackground/Sprite2D"]
 script = ExtResource("161_5of03")
+DayDuration = 12.0
 Gradient = ExtResource("162_i8sx2")

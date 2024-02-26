@@ -22,7 +22,7 @@ DayNightCycleUpdater="*res://Assets/Scripts/Mechanic/DayNightCycleUpdater.cs"
 [display]
 
 window/size/viewport_width=720
-window/size/viewport_height=405
+window/size/viewport_height=490
 window/size/window_width_override=1920
 window/size/window_height_override=1080
 window/stretch/mode="canvas_items"

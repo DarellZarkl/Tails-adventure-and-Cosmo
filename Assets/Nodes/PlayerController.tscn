@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dha628u58fcds"]
+[gd_scene load_steps=4 format=3 uid="uid://dha628u58fcds"]
 
 [ext_resource type="PackedScene" uid="uid://bvnejsof4vxaf" path="res://Assets/Nodes/CharacterTemplate.tscn" id="1_mbo4r"]
 [ext_resource type="Script" path="res://Assets/Scripts/Strategies/CharacterStrategy/TailsCharacterStrategy.cs" id="2_jdtqd"]
+[ext_resource type="Texture2D" uid="uid://ckj6q0i38r0gm" path="res://Ressources/light.png" id="3_m0ryc"]
 
 [node name="PlayerController" type="Node2D"]
 
@@ -14,3 +15,8 @@ CoyoteTime = 0.2
 TailsMaxFlyTime = 3.0
 jumptimeLimit = 0.35
 JumpVelocity = 300.0
+
+[node name="PointLight2D" type="PointLight2D" parent="CharacterBody2D"]
+energy = 0.1
+texture = ExtResource("3_m0ryc")
+texture_scale = 0.6
