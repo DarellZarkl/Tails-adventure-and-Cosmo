@@ -1,4 +1,11 @@
-public partial class Interactible : Node,ITriggerable
+using Godot;
+using System;
+
+namespace GameTriggers
+{
+	
+
+public partial class Triggerable : Node, ITriggerable
 {
 	
 	// Called when the node enters the scene tree for the first time.
@@ -18,4 +25,5 @@ public partial class Interactible : Node,ITriggerable
 }
 public interface ITriggerable{
 	public void ExecuteAction();
+}
 }

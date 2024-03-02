@@ -1,11 +1,21 @@
+using GameTriggers;
 using Godot;
 using System;
 
-public partial class Interactible : Node
+public partial class Interactible : Node, IInteractibleNode
 {
-	
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+	[Export]
+	public NodePath TriggerPath{get;set;}
+	private ITriggerable _trigger;
+    public ITriggerable Trigger { get{
+		if(_trigger==null){
+			_trigger = this.GetNode<ITriggerable>(TriggerPath);
+		}
+		return _trigger;
+	} }
+
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
 	{
 	}
 
@@ -15,12 +25,9 @@ public partial class Interactible : Node
 	}
 }
 
-public interface IInteractibleNode<T> where T: ITriggerable{
-	ITriggerable trigger{get;set;}
+public interface IInteractibleNode{
+	ITriggerable Trigger{get;}
 }
 
 
 
-public interface ITriggerable{
-	public void ExecuteAction();
-}
