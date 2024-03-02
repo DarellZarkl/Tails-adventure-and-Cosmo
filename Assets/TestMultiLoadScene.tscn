@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://bc57238b2kg4l"]
+
+[node name="TestMultiLoadScene" type="Node2D"]

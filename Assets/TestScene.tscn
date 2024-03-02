@@ -124,7 +124,7 @@ libraries = {
 }
 
 [node name="Button" type="Node2D" parent="."]
-position = Vector2(1568, -52)
+position = Vector2(1568, -49)
 
 [node name="Sprite2D" type="Sprite2D" parent="Button"]
 texture = ExtResource("9_cluax")

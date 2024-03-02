@@ -17,7 +17,7 @@ public partial class DayNightCycle : CanvasModulate
 	public override void _Process(double delta)
 	{
 		var timeofDay = DayNightSingleton.Instance.TimeOfDay();
-        this.Color = Gradient.Gradient.Sample((float)timeofDay);
-        GD.Print($"Setting color at {DayNightSingleton.Instance.Time} : {this.Color.ToString()}");
+		this.Color = Gradient.Gradient.Sample((float)timeofDay);
+		GD.Print($"Setting color at {DayNightSingleton.Instance.Time} : {this.Color.ToString()}");
 	}
 }
