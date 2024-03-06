@@ -82,12 +82,17 @@ shape = SubResource("RectangleShape2D_alg0n")
 [node name="MovingPlateformBase" parent="." instance=ExtResource("160_8cfgn")]
 position = Vector2(678, -37)
 curve = SubResource("Curve2D_4oecr")
+Loop = false
+speed = 2.0
 SpeedScale = 0.5
+Freeze = false
 
 [node name="MovingPlateformBase2" parent="." instance=ExtResource("160_8cfgn")]
 position = Vector2(1088, -40)
+Loop = false
 speed = 3.0
 SpeedScale = 0.5
+Freeze = false
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 layer = -3
