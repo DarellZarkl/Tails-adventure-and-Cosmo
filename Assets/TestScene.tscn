@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://bkidgycm1jdpu"]
+[gd_scene load_steps=17 format=3 uid="uid://bkidgycm1jdpu"]
 
 [ext_resource type="TileSet" uid="uid://cb3h1tcr8wvcx" path="res://Ressources/Nodes/test_Tileset.tres" id="4_ydnog"]
 [ext_resource type="Script" path="res://Assets/Scripts/Nodes/Door.cs" id="8_dcmp2"]
+[ext_resource type="Script" path="res://Assets/Scripts/Nodes/Button.cs" id="9_41276"]
 [ext_resource type="Texture2D" uid="uid://cb512acc338pq" path="res://Ressources/Sprites/kenney_pixel-platformer/Tiles/tile_0148.png" id="9_cluax"]
 [ext_resource type="PackedScene" uid="uid://dha628u58fcds" path="res://Assets/Nodes/PlayerController.tscn" id="158_f8kp1"]
 [ext_resource type="Script" path="res://Assets/Scripts/DeadZone.cs" id="159_kcdgu"]
@@ -57,6 +58,9 @@ _data = {
 "doorAnimation": SubResource("Animation_jkhm3")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_los4w"]
+size = Vector2(16, 9)
+
 [node name="TestScene" type="Node2D"]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
@@ -82,17 +86,12 @@ shape = SubResource("RectangleShape2D_alg0n")
 [node name="MovingPlateformBase" parent="." instance=ExtResource("160_8cfgn")]
 position = Vector2(678, -37)
 curve = SubResource("Curve2D_4oecr")
-Loop = false
-speed = 2.0
 SpeedScale = 0.5
-Freeze = false
 
 [node name="MovingPlateformBase2" parent="." instance=ExtResource("160_8cfgn")]
 position = Vector2(1088, -40)
-Loop = false
 speed = 3.0
 SpeedScale = 0.5
-Freeze = false
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 layer = -3
@@ -130,8 +129,17 @@ libraries = {
 
 [node name="Button" type="Node2D" parent="."]
 position = Vector2(1568, -49)
+script = ExtResource("9_41276")
+CollisionShape = NodePath("Area2D")
+TriggerPath = NodePath("../Door")
 
 [node name="Sprite2D" type="Sprite2D" parent="Button"]
 texture = ExtResource("9_cluax")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Button"]
+
+[node name="Area2D" type="Area2D" parent="Button"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Button/Area2D"]
+position = Vector2(0, 5.5)
+shape = SubResource("RectangleShape2D_los4w")

@@ -75,6 +75,12 @@ public partial class CharacterController : CharacterBody2D, IOnCollisionEnter
 			GD.Print("wut?");
 		}
 	}
+
+    public void OnExitArea(Node2D area)
+    {
+       
+    }
+
 }
 
 

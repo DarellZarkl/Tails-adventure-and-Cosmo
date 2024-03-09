@@ -18,7 +18,7 @@ public partial class Triggerable : Node, ITriggerable
 	{
 	}
 
-    public void ExecuteAction()
+    public virtual void ExecuteAction()
     {
         throw new System.NotImplementedException();
     }

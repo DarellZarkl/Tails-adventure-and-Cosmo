@@ -55,8 +55,12 @@ _data = {
 [node name="MovingPlateformBase" type="Path2D"]
 curve = SubResource("Curve2D_oq42t")
 script = ExtResource("1_kikab")
+Loop = null
+speed = null
+SpeedScale = null
 PathFollow2DPath = NodePath("PathFollow2D")
 AnimationPlayerPath = NodePath("PathFollow2D/AnimationPlayer")
+Freeze = null
 
 [node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
 

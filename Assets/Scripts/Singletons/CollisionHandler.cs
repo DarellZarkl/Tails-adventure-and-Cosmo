@@ -89,6 +89,7 @@ public class CollisionHandlingItem{
         Zones.Add(area);
         foreach(var item in Triggers){
             area.BodyEntered+= item.OnEnterArea;
+            area.BodyExited+= item.OnExitArea;
             GD.Print($"Connected item to {area.Name}");
         }
     }
@@ -96,12 +97,14 @@ public class CollisionHandlingItem{
         Triggers.Add(item);
         foreach(var zone in Zones){
             zone.BodyEntered+=item.OnEnterArea;
+            zone.BodyExited+=item.OnExitArea;
             GD.Print($"Connected item to {zone.Name}");
         }
     }
     public Area2D RemoveArea(Area2D Zone){
         foreach(var item in Triggers){
             Zone.BodyEntered-=item.OnEnterArea;
+            Zone.BodyExited-=item.OnExitArea;
         }
         Zones.Remove(Zone);
         return Zone;
@@ -109,6 +112,7 @@ public class CollisionHandlingItem{
     public IOnCollisionEnter RemoveBody(IOnCollisionEnter item){
         foreach(var zone in Zones){
             zone.BodyEntered-=item.OnEnterArea;
+            zone.BodyExited-=item.OnExitArea;
         }
         Triggers.Remove(item);
         return item;
@@ -117,5 +121,6 @@ public class CollisionHandlingItem{
 
 public interface IOnCollisionEnter{
     void OnEnterArea(Node2D area);
+    void OnExitArea(Node2D area);
 }
 }
