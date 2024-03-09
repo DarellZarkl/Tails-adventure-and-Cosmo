@@ -534,6 +534,7 @@ texture = ExtResource("114_q4lw3")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-7, -7, 7, -7, 7, 7, -7, 7)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yjage"]
 texture = ExtResource("115_ici83")
