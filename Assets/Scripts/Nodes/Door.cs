@@ -19,24 +19,33 @@ public partial class Door : Triggerable,IOnCollisionEnter
 			return _player;
 		}
 	}
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+    }
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
 	{
 		//AnimationPlayer.Play("doorAnimation"); 
 	}
     public override void _EnterTree()
     {
-       Collisionhandler.Instance.AddCollisionBody(this,CollisionGroupName);
+		//AnimationPlayer.Play("Closed");
+		GD.Print($"Current anim : {AnimationPlayer.CurrentAnimation}");
+       	Collisionhandler.Instance.AddCollisionBody(this,CollisionGroupName);
+		GD.Print($"Door connected to {CollisionGroupName}");
     }
 
 	public override void ExecuteAction(){
 		if(!triggered){
+			GD.Print($"{CollisionGroupName} triggered !");
 			AnimationPlayer.Play("doorAnimation");
 			triggered = true;
 		}
 	}
 	public void reverse(){
 		if(triggered){
+			GD.Print($"{CollisionGroupName} reverse !");
 			AnimationPlayer.PlayBackwards();
 			triggered = false;
 		}

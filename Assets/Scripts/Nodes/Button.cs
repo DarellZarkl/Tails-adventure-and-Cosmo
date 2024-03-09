@@ -15,10 +15,12 @@ public partial class Button : Interactible
     public override void _Ready()
     {
         base._Ready();
-        this.Collision = this.GetNode<Area2D>(CollisionShape);
     }
     public override void _EnterTree()
     {
-       Collisionhandler.Instance.AddCollisionArea(Collision,CollisionGroupName);
+        
+        this.Collision = this.GetNode<Area2D>(CollisionShape);
+        Collisionhandler.Instance.AddCollisionArea(Collision,CollisionGroupName);
+        GD.Print($"Door connected to {CollisionGroupName}");
     }
 }

@@ -18,6 +18,8 @@ public partial class DayNightCycle : CanvasModulate
 	{
 		var timeofDay = DayNightSingleton.Instance.TimeOfDay();
 		this.Color = Gradient.Gradient.Sample((float)timeofDay);
-		GD.Print($"Setting color at {DayNightSingleton.Instance.Time} : {this.Color.ToString()}");
+		if(((int)DayNightSingleton.Instance.Time)%30==0){
+			GD.Print($"Setting color at {DayNightSingleton.Instance.Time} : {this.Color.ToString()}");
+		}
 	}
 }
